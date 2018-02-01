@@ -15,7 +15,7 @@ class pyarchiver:
 
 	def get_archivation_methods(self):
 		""".Returns the all available methods for\
-		 archiving the file with this tool"""
+		 archiving the file with this tool."""
 		return self.archiving_methods
 
 

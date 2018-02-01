@@ -27,6 +27,7 @@ setup(name='pyarchiver',
       license='MIT',
       install_requires=[
         'markdown',
+        'datetime',
         ],
       packages=['pyarchiver'],
       test_suite='nose.collector',
