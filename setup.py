@@ -1,11 +1,15 @@
+"""Importing setup for settingup the package."""
 from setuptools import setup
 
+
 def readme():
-    with open('README.rst') as f:
-        return f.read()
+        """Provide README for the package."""
+        with open('README.rst') as f:
+                return f.read()
+
 
 setup(name='pyarchiver',
-      version='0.1',
+      version='0.0.1',
       description='Module to archive the plain files, with given (available)\
                    archiving tools.',
       long_description='Really, the funniest around.',
@@ -25,5 +29,7 @@ setup(name='pyarchiver',
         'markdown',
       ],
       packages=['pyarchiver'],
+      test_suite='nose.collector',
+      tests_require=['nose'],
       include_package_data=True,
       zip_safe=False)
