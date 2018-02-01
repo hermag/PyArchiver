@@ -10,16 +10,16 @@ class TestPyarchiver(TestCase):
         path_of_archive="/tmp"
         archive_file="pyarchiver"
         method='lzma'
-        s = pyarchiver(file_to_archive,path_of_archive,archive_file,method)
-        self.assertTrue(s.pyarchiver())
+        test_object = pyarchiver(file_to_archive,path_of_archive,archive_file,method)
+        self.assertTrue(test_object.pyarchiver())
 
     def test_gzip_in_pyarchiver(self):
         file_to_archive="/tmp/pyarchiver_asdasdasdasd.txt"
         path_of_archive="/tmp"
         archive_file="pyarchiver"
         method='gzip'
-        s = pyarchiver(file_to_archive,path_of_archive,archive_file,method)
-        self.assertTrue(method in s.get_archivation_methods())
+        test_object = pyarchiver(file_to_archive,path_of_archive,archive_file,method)
+        self.assertTrue(method in test_object.get_archivation_methods())
 
 
     def test_bz2_in_pyarchiver(self):
@@ -27,8 +27,8 @@ class TestPyarchiver(TestCase):
         path_of_archive="/tmp"
         archive_file="pyarchiver"
         method='bz2'
-        s = pyarchiver(file_to_archive,path_of_archive,archive_file,method)
-        self.assertTrue(method in s.get_archivation_methods())
+        test_object = pyarchiver(file_to_archive,path_of_archive,archive_file,method)
+        self.assertTrue(method in test_object.get_archivation_methods())
 
 
     def test_lzma_in_pyarchiver(self):
@@ -36,5 +36,5 @@ class TestPyarchiver(TestCase):
         path_of_archive="/tmp"
         archive_file="pyarchiver"
         method='lzma'
-        s = pyarchiver(file_to_archive,path_of_archive,archive_file,method)
-        self.assertTrue(method in s.get_archivation_methods())
+        test_object = pyarchiver(file_to_archive,path_of_archive,archive_file,method)
+        self.assertTrue(method in test_object.get_archivation_methods())
