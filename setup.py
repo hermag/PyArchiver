@@ -1,0 +1,25 @@
+from setuptools import setup
+
+setup(name='pyarchiver',
+      version='0.1',
+      description='Routine script (use it in cronjob) for archiving the plain\
+                   files, with the given (available) archiving tools.',
+      long_description='Really, the funniest around.',
+      classifiers=[
+        'Development Status :: 4 - Beta',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3.6.3',
+        'Topic :: System :: Archiving :: Compression',
+      ],
+      keywords='Cronjob Archiving Files',
+      url='http://github.com/hermag/PyArchiver',
+      download_url='https://github.com/hermag/PyArchiver/archive/master.zip',
+      author='Erekle Magradze',
+      author_email='erekle@magradze.de',
+      license='MIT',
+      install_requires=[
+        'markdown',
+      ],
+      packages=['pyarchiver'],
+      include_package_data=True,
+      zip_safe=False)
