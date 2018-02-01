@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(name='pyarchiver',
       version='0.1',
-      description='Routine script (use it in cronjob) for archiving the plain\
-                   files, with the given (available) archiving tools.',
+      description='Module to archive the plain files, with given (available)\
+                   archiving tools.',
       long_description='Really, the funniest around.',
       classifiers=[
         'Development Status :: 4 - Beta',
