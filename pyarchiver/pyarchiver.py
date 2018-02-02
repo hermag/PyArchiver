@@ -52,7 +52,7 @@ class pyarchiver:
 		""".Makes tar.bz2 archive out of the file/folder."""
 		output_file_full_path="%s/%s.tar.bz2"%(self.archivation_path,self.archive_filename)
 		try:
-    		p = subprocess.Popen(["tar", "-jcvf", output_file_full_path, self.file_to_archive])
+			p = subprocess.Popen(["tar", "-jcvf", output_file_full_path, self.file_to_archive])
 			return_code = p.returncode
 			output, err = p.communicate()
 			if return_code!=0:
@@ -62,7 +62,7 @@ class pyarchiver:
 				os.remove(self.file_to_archive)
 				return True
 		except subprocess.CalledProcessError as e:
-    		print e.output
+			print(e.output)
 			return False
 		return False
 
@@ -70,16 +70,16 @@ class pyarchiver:
 	def make_gzip(self):
 		"Makes gzip archive out of the file/folder."
 		try:
-    		p = subprocess.Popen(["gzip", self.file_to_archive])
+			p = subprocess.Popen(["gzip", self.file_to_archive])
 			return_code = p.returncode
 			output, err = p.communicate()
 			if return_code!=0:
 				print(err)
 				return False
-			else
+			else:
 				return True
 		except subprocess.CalledProcessError as e:
-    		print e.output
+			print(e.output)
 			return False
 		return False
 
@@ -87,16 +87,16 @@ class pyarchiver:
 	def make_lzma(self):
 		"Makes lzma archive out of the file/folder."
 		try:
-    		p = subprocess.Popen(["lzma", self.file_to_archive])
+			p = subprocess.Popen(["lzma", self.file_to_archive])
 			return_code = p.returncode
 			output, err = p.communicate()
 			if return_code!=0:
 				print(err)
 				return False
-			else
+			else:
 				return True
 		except subprocess.CalledProcessError as e:
-    		print e.output
+			print(e.output)
 			return False
 		return False
 
