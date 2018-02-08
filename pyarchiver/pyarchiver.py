@@ -6,10 +6,10 @@ import subprocess
 
 class pyarchiver:
 	""".Basic pyarchiver class."""
-	def __init__(self,file_to_archive,archivation_path,archive_filename,archiving_method):
+	def __init__(self, file_to_archive, archivation_path, archived_file, archiving_method):
 		self.file_to_archive = file_to_archive
 		self.archivation_path = archivation_path
-		self.archive_filename = archive_filename
+		self.archived_file = archived_file
 		self.archiving_method = archiving_method
 		self.archiving_methods= ['bz2','gzip','lzma']
 
@@ -50,16 +50,17 @@ class pyarchiver:
 
 	def make_bz2(self):
 		""".Makes tar.bz2 archive out of the file/folder."""
-		output_file_full_path="%s/%s.tar.bz2"%(self.archivation_path,self.archive_filename)
+		output_file_full_path="%s/%s.bz2"%(self.archivation_path,self.archived_file)
 		try:
-			p = subprocess.Popen(["tar", "-jcvf", output_file_full_path, self.file_to_archive])
-			return_code = p.returncode
+			p = subprocess.Popen(["bzip2", self.file_to_archive],stdout = subprocess.PIPE)
 			output, err = p.communicate()
+			return_code = p.returncode
 			if return_code!=0:
 				print(err)
 				return False
 			else:
-				os.remove(self.file_to_archive)
+				p = subprocess.Popen(["mv", "%s.bz2"%self.file_to_archive, output_file_full_path])
+				p.communicate()
 				return True
 		except subprocess.CalledProcessError as e:
 			print(e.output)
@@ -69,14 +70,17 @@ class pyarchiver:
 
 	def make_gzip(self):
 		"Makes gzip archive out of the file/folder."
+		output_file_full_path="%s/%s.gz"%(self.archivation_path,self.archived_file)
 		try:
-			p = subprocess.Popen(["gzip", self.file_to_archive])
-			return_code = p.returncode
+			p = subprocess.Popen(["/bin/gzip", self.file_to_archive],stdout = subprocess.PIPE)
 			output, err = p.communicate()
+			return_code = p.returncode
 			if return_code!=0:
 				print(err)
 				return False
 			else:
+				p = subprocess.Popen(["mv", "%s.gz"%self.file_to_archive, output_file_full_path])
+				p.communicate()
 				return True
 		except subprocess.CalledProcessError as e:
 			print(e.output)
@@ -86,14 +90,17 @@ class pyarchiver:
 
 	def make_lzma(self):
 		"Makes lzma archive out of the file/folder."
+		output_file_full_path="%s/%s.lzma"%(self.archivation_path,self.archived_file)
 		try:
-			p = subprocess.Popen(["lzma", self.file_to_archive])
-			return_code = p.returncode
+			p = subprocess.Popen(["/usr/bin/lzma", self.file_to_archive], stdout = subprocess.PIPE)
 			output, err = p.communicate()
+			return_code = p.returncode
 			if return_code!=0:
 				print(err)
 				return False
 			else:
+				p = subprocess.Popen(["mv", "%s.lzma"%self.file_to_archive, output_file_full_path])
+				p.communicate()
 				return True
 		except subprocess.CalledProcessError as e:
 			print(e.output)
@@ -116,11 +123,20 @@ class pyarchiver:
 			return False
 
 		if self.archiving_method=='bz2':
-			self.make_bz2()
+			if self.make_bz2():
+				return True
+			else:
+				return False
 		elif self.archiving_method=='gzip':
-			self.make_gzip()
+			if self.make_gzip():
+				return True
+			else:
+				return False
 		elif self.archiving_method=='lzma':
-			self.make_lzma()
+			if self.make_lzma():
+				return True
+			else:
+				return False
 		else:
 			print("Archiging method %s is invalid"%self.archiving_method)
 			return False
