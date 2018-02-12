@@ -7,11 +7,11 @@ import subprocess
 class pyarchiver:
     """.Basic pyarchiver class."""
 
-    def __init__(self, file_to_archive, archivation_path, archived_file, archiving_method):
+    # def __init__(self, file_to_archive, archivation_path, archived_file, archiving_method):
+    def __init__(self, file_to_archive, archivation_path, archiving_method):
         """.The init function"""
         self.file_to_archive = file_to_archive
         self.archivation_path = archivation_path
-        self.archived_file = archived_file
         self.archiving_method = archiving_method
         self.archiving_methods = ['bzip2', 'gzip', 'lzma']
         self.archiving_methods_dictionary = {"bzip2": 'bz2',
@@ -79,9 +79,9 @@ class pyarchiver:
     def __source_cleanup(self):
         """.Moving the archived file to the predefined location."""
         output_file_full_path = "%s/%s.%s" % (
-            self.archivation_path, self.archived_file,
+            self.archivation_path, self.file_to_archive.split("/")[-1],
             self.archiving_methods_dictionary[self.archiving_method])
-        filename_to_move = "%s.%s" % (self.file_to_archive,
+        filename_to_move = "%s.%s" % (self.file_to_archive.split("/")[-1],
                                       self.archiving_methods_dictionary[self.archiving_method])
         prcs = subprocess.Popen(
             ["mv", "%s" % (filename_to_move), output_file_full_path],
