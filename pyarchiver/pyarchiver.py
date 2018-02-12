@@ -27,8 +27,8 @@ class pyarchiver:
             stderr=subprocess.PIPE)
         try:
             output, err = prcs.communicate()
-            print("Output: ", output)
-            print("Error Message: ", err)
+            #print("Output: ", output)
+            #print("Error Message: ", err)
         except subprocess.CalledProcessError as errr:
             print(errr.output)
             return False
