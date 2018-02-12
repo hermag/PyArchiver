@@ -13,26 +13,35 @@ class pyarchiver:
         self.archivation_path = archivation_path
         self.archived_file = archived_file
         self.archiving_method = archiving_method
-        self.archiving_methods = ['bz2', 'gzip', 'lzma']
+        self.archiving_methods = ['bzip2', 'gzip', 'lzma']
+        self.archiving_methods_dictionary = {"bzip2": 'bz2',
+                                             "gzip": 'gz',
+                                             "lzma": 'lzma'}
 
-    def get_archivation_methods(self):
-        """.Returns the all available methods for\
-         archiving the file with this tool."""
-        return self.archiving_methods
-
-    def check_if_input_file_exists(self):
-        """.If file/folder exist return True, else False."""
+    def __check_if_archivation_methods_exist(self):
+        """.Checks if archivation methods are collable and returns True or False."""
+        prcs = subprocess.Popen(
+            [self.archiving_method, "--help"],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
         try:
-            if os.path.exists(self.file_to_archive):
-                return True
-            else:
-                return False
-        except OSError:
-            print("Check if you have permissions to %s" % self.file_to_archive)
+            output, err = prcs.communicate()
+            print("Output: ", output)
+            print("Error Message: ", err)
+        except subprocess.CalledProcessError as errr:
+            print(errr.output)
             return False
-        return False
+        return True
 
-    def check_and_make_output_location(self):
+    def __check_if_input_file_exists(self):
+        """.If file/folder exist return True, else False."""
+        if os.path.exists(self.file_to_archive):
+            return True
+        else:
+            return False
+
+    def __check_and_make_output_location(self):
         """.Checks if folder exists and creates if not."""
         if os.path.exists(self.archivation_path):
             return True
@@ -47,106 +56,72 @@ class pyarchiver:
                 return False
         return False
 
-    def make_bz2(self):
-        """.Makes tar.bz2 archive out of the file/folder."""
-        output_file_full_path = "%s/%s.bz2" % (
-            self.archivation_path, self.archived_file)
+    def __make_archive(self):
+        prcs = subprocess.Popen(
+            [self.archiving_method,
+             self.file_to_archive],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
         try:
-            prcs = subprocess.Popen(
-                ["bzip2", self.file_to_archive], stdout=subprocess.PIPE)
             output, err = prcs.communicate()
             return_code = prcs.returncode
             if return_code != 0:
                 print(err)
                 return False
             else:
-                prcs = subprocess.Popen(
-                    ["mv", "%s.bz2" % self.file_to_archive, output_file_full_path])
-                prcs.communicate()
                 return True
-        except subprocess.CalledProcessError as e:
-            print(e.output)
+        except subprocess.CalledProcessError as errr:
+            print(errr.output)
             return False
         return False
 
-    def make_gzip(self):
-        "Makes gzip archive out of the file/folder."
-        output_file_full_path = "%s/%s.gz" % (
-            self.archivation_path, self.archived_file)
+    def __source_cleanup(self):
+        """.Moving the archived file to the predefined location."""
+        output_file_full_path = "%s/%s.%s" % (
+            self.archivation_path, self.archived_file,
+            self.archiving_methods_dictionary[self.archiving_method])
+        filename_to_move = "%s.%s" % (self.file_to_archive,
+                                      self.archiving_methods_dictionary[self.archiving_method])
+        prcs = subprocess.Popen(
+            ["mv", "%s" % (filename_to_move), output_file_full_path],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
         try:
-            prcs = subprocess.Popen(
-                ["/bin/gzip", self.file_to_archive], stdout=subprocess.PIPE)
-            output, err = prcs.communicate()
-            return_code = prcs.returncode
-            if return_code != 0:
-                print(err)
-                return False
-            else:
-                prcs = subprocess.Popen(
-                    ["mv", "%s.gz" % self.file_to_archive, output_file_full_path])
-                prcs.communicate()
-                return True
-        except subprocess.CalledProcessError as e:
-            print(e.output)
-            return False
-        return False
-
-    def make_lzma(self):
-        "Makes lzma archive out of the file/folder."
-        output_file_full_path = "%s/%s.lzma" % (
-            self.archivation_path, self.archived_file)
-        try:
-            prcs = subprocess.Popen(
-                ["/usr/bin/lzma", self.file_to_archive], stdout=subprocess.PIPE)
-            output, err = prcs.communicate()
-            return_code = prcs.returncode
-            if return_code != 0:
-                print(err)
-                return False
-            else:
-                prcs = subprocess.Popen(
-                    ["mv", "%s.lzma" % self.file_to_archive, output_file_full_path])
-                prcs.communicate()
-                return True
-        except subprocess.CalledProcessError as e:
-            print(e.output)
+            prcs.communicate()
+            return True
+        except subprocess.CalledProcessError as errr:
+            print(errr.output)
             return False
         return False
 
     def pyarchiver(self):
         """.The main function doing the archivation."""
-        if self.check_and_make_output_location():
+        if self.__check_if_archivation_methods_exist():
             pass
         else:
-            print("Output location %s is not available" %
-                  self.archivation_path)
+            print("%s is not installed or available" % self.archiving_method)
             return False
-
-        if self.check_if_input_file_exists():
+        if self.__check_if_input_file_exists():
             pass
         else:
-            print("File/Folder %s to archive is not available." %
+            print("%s file doesn't exist or not available" %
                   self.file_to_archive)
             return False
-
-        if self.archiving_method == 'bz2':
-            if self.make_bz2():
-                return True
-            else:
-                return False
-        elif self.archiving_method == 'gzip':
-            if self.make_gzip():
-                return True
-            else:
-                return False
-        elif self.archiving_method == 'lzma':
-            if self.make_lzma():
-                return True
-            else:
-                return False
+        if self.__check_and_make_output_location():
+            pass
         else:
-            print("Archiging method %s is invalid" % self.archiving_method)
+            print("%s path is not available" % self.archivation_path)
             return False
-
+        if self.__make_archive():
+            pass
+        else:
+            print("Archivation of %s failed" % self.file_to_archive)
+            return False
+        if self.__source_cleanup():
+            return True
+        else:
+            return False
         print("PyArchiver Failed With Unknown Reason.")
         return False
