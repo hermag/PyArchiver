@@ -9,7 +9,7 @@ def readme():
 
 
 setup(name='pyarchiver',
-      version='0.0.2',
+      version='0.0.3',
       description='Module to archive the plain files, with given (available)\
                    archiving tools.',
       long_description='Really, the funniest around.',
