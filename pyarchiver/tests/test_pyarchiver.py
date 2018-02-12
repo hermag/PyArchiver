@@ -12,9 +12,9 @@ class TestPyarchiver(TestCase):
             out.write(os.urandom(1280000))
         out.close()
         file_to_archive = "/tmp/foo_lzma.txt"
-        path_of_archive = "/tmp/archive_folder"
+        archivation_path = "/tmp/archive_folder"
         method = 'lzma'
-        test_object = pyarchiver(file_to_archive, path_of_archive, method)
+        test_object = pyarchiver(file_to_archive, archivation_path, method)
         self.assertTrue(test_object.pyarchiver())
 
     def test_bzip2(self):
@@ -22,9 +22,9 @@ class TestPyarchiver(TestCase):
             out.write(os.urandom(1280000))
         out.close()
         file_to_archive = "/tmp/foo_bzip2.txt"
-        path_of_archive = "/tmp/archive_folder"
+        archivation_path = "/tmp/archive_folder"
         method = 'bzip2'
-        test_object = pyarchiver(file_to_archive, path_of_archive, method)
+        test_object = pyarchiver(file_to_archive, archivation_path, method)
         self.assertTrue(test_object.pyarchiver())
 
     def test_gzip(self):
@@ -32,7 +32,7 @@ class TestPyarchiver(TestCase):
             out.write(os.urandom(1280000))
         out.close()
         file_to_archive = "/tmp/foo_gzip.txt"
-        path_of_archive = "/tmp/archive_folder"
+        archivation_path = "/tmp/archive_folder"
         method = 'gzip'
-        test_object = pyarchiver(file_to_archive, path_of_archive, method)
+        test_object = pyarchiver(file_to_archive, archivation_path, method)
         self.assertTrue(test_object.pyarchiver())

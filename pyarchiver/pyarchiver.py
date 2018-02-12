@@ -7,7 +7,6 @@ import subprocess
 class pyarchiver:
     """.Basic pyarchiver class."""
 
-    # def __init__(self, file_to_archive, archivation_path, archived_file, archiving_method):
     def __init__(self, file_to_archive, archivation_path, archiving_method):
         """.The init function"""
         self.file_to_archive = file_to_archive
@@ -19,7 +18,8 @@ class pyarchiver:
                                              "lzma": 'lzma'}
 
     def __check_if_archivation_methods_exist(self):
-        """.Checks if archivation methods are collable and returns True or False."""
+        """.Checks if archivation methods are collable\
+           and returns True or False."""
         prcs = subprocess.Popen(
             [self.archiving_method, "--help"],
             stdin=subprocess.PIPE,
@@ -81,10 +81,10 @@ class pyarchiver:
         output_file_full_path = "%s/%s.%s" % (
             self.archivation_path, self.file_to_archive.split("/")[-1],
             self.archiving_methods_dictionary[self.archiving_method])
-        filename_to_move = "%s.%s" % (self.file_to_archive.split("/")[-1],
+        filename_to_move = "%s.%s" % (self.file_to_archive,
                                       self.archiving_methods_dictionary[self.archiving_method])
         prcs = subprocess.Popen(
-            ["mv", "%s" % (filename_to_move), output_file_full_path],
+            ["mv", "%s" % filename_to_move, output_file_full_path],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE)
