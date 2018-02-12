@@ -8,6 +8,7 @@ class pyarchiver:
     """.Basic pyarchiver class."""
 
     def __init__(self, file_to_archive, archivation_path, archived_file, archiving_method):
+        """.The init function"""
         self.file_to_archive = file_to_archive
         self.archivation_path = archivation_path
         self.archived_file = archived_file
@@ -41,23 +42,27 @@ class pyarchiver:
                 print("%s created" % self.archivation_path)
                 return True
             except OSError:
-                print("Check if you have permissions to %s" % self.archivation_path)
+                print("Check if you have permissions to %s" %
+                      self.archivation_path)
                 return False
         return False
 
     def make_bz2(self):
         """.Makes tar.bz2 archive out of the file/folder."""
-        output_file_full_path = "%s/%s.bz2" % (self.archivation_path, self.archived_file)
+        output_file_full_path = "%s/%s.bz2" % (
+            self.archivation_path, self.archived_file)
         try:
-            p = subprocess.Popen(["bzip2", self.file_to_archive], stdout=subprocess.PIPE)
-            output, err = p.communicate()
-            return_code = p.returncode
+            prcs = subprocess.Popen(
+                ["bzip2", self.file_to_archive], stdout=subprocess.PIPE)
+            output, err = prcs.communicate()
+            return_code = prcs.returncode
             if return_code != 0:
                 print(err)
                 return False
             else:
-                p = subprocess.Popen(["mv", "%s.bz2" % self.file_to_archive, output_file_full_path])
-                p.communicate()
+                prcs = subprocess.Popen(
+                    ["mv", "%s.bz2" % self.file_to_archive, output_file_full_path])
+                prcs.communicate()
                 return True
         except subprocess.CalledProcessError as e:
             print(e.output)
@@ -66,17 +71,20 @@ class pyarchiver:
 
     def make_gzip(self):
         "Makes gzip archive out of the file/folder."
-        output_file_full_path = "%s/%s.gz" % (self.archivation_path, self.archived_file)
+        output_file_full_path = "%s/%s.gz" % (
+            self.archivation_path, self.archived_file)
         try:
-            p = subprocess.Popen(["/bin/gzip", self.file_to_archive], stdout=subprocess.PIPE)
-            output, err = p.communicate()
-            return_code = p.returncode
+            prcs = subprocess.Popen(
+                ["/bin/gzip", self.file_to_archive], stdout=subprocess.PIPE)
+            output, err = prcs.communicate()
+            return_code = prcs.returncode
             if return_code != 0:
                 print(err)
                 return False
             else:
-                p = subprocess.Popen(["mv", "%s.gz" % self.file_to_archive, output_file_full_path])
-                p.communicate()
+                prcs = subprocess.Popen(
+                    ["mv", "%s.gz" % self.file_to_archive, output_file_full_path])
+                prcs.communicate()
                 return True
         except subprocess.CalledProcessError as e:
             print(e.output)
@@ -85,17 +93,20 @@ class pyarchiver:
 
     def make_lzma(self):
         "Makes lzma archive out of the file/folder."
-        output_file_full_path = "%s/%s.lzma" % (self.archivation_path, self.archived_file)
+        output_file_full_path = "%s/%s.lzma" % (
+            self.archivation_path, self.archived_file)
         try:
-            p = subprocess.Popen(["/usr/bin/lzma", self.file_to_archive], stdout=subprocess.PIPE)
-            output, err = p.communicate()
-            return_code = p.returncode
+            prcs = subprocess.Popen(
+                ["/usr/bin/lzma", self.file_to_archive], stdout=subprocess.PIPE)
+            output, err = prcs.communicate()
+            return_code = prcs.returncode
             if return_code != 0:
                 print(err)
                 return False
             else:
-                p = subprocess.Popen(["mv", "%s.lzma" % self.file_to_archive, output_file_full_path])
-                p.communicate()
+                prcs = subprocess.Popen(
+                    ["mv", "%s.lzma" % self.file_to_archive, output_file_full_path])
+                prcs.communicate()
                 return True
         except subprocess.CalledProcessError as e:
             print(e.output)
@@ -107,13 +118,15 @@ class pyarchiver:
         if self.check_and_make_output_location():
             pass
         else:
-            print("Output location %s is not available" % self.archivation_path)
+            print("Output location %s is not available" %
+                  self.archivation_path)
             return False
 
         if self.check_if_input_file_exists():
             pass
         else:
-            print("File/Folder %s to archive is not available." % self.file_to_archive)
+            print("File/Folder %s to archive is not available." %
+                  self.file_to_archive)
             return False
 
         if self.archiving_method == 'bz2':
