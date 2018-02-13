@@ -12,7 +12,7 @@ setup(name='pyarchiver',
       version='0.0.4',
       description='Module to archive the plain files, with given (available)\
                    archiving tools.',
-      long_description='Really, the funniest around.',
+      long_description='Module to use for archiving the files using different linux archiving tools.',
       classifiers=[
           'Development Status :: 4 - Beta',
           'License :: OSI Approved :: MIT License',
